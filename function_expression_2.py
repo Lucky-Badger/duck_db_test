@@ -17,8 +17,8 @@ formatted_column = duckdb.FunctionExpression(
     duckdb.ConstantExpression('Benchmark "{}" took {} seconds'),
     duckdb.ColumnExpression('name'),
     duckdb.ColumnExpression('time_taken')
-).alias('formatted_string')
+)
 
 # Select the formatted string
-res = rel.select(formatted_column)
+res = rel.select(f"name, {formatted_column} AS test")
 res.show()
