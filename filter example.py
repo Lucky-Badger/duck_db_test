@@ -12,7 +12,6 @@ cast_dict = {"age": "%Y%m%d"}
 
 df = pd.DataFrame(data)
 
-# Connect to DuckDB and register the pandas DataFrame
 duck_connection = duckdb.connect(database=':memory:', read_only=False)
 
 relation = duck_connection.from_df(df)
@@ -33,3 +32,18 @@ relation_3 = duck_connection.sql("""
 relation.show()
 relation_3.show()
 
+'''
+┌───────┬─────────┬────────┐
+│  id   │  name   │  age   │
+│ int64 │ varchar │ double │
+├───────┼─────────┼────────┤
+│     1 │ Alice   │    9.0 │
+└───────┴─────────┴────────┘
+
+┌───────┬─────────┬────────┐
+│  id   │  name   │  age   │
+│ int64 │ varchar │ double │
+├───────┼─────────┼────────┤
+│     1 │ Trey    │   43.0 │
+└───────┴─────────┴────────┘
+'''

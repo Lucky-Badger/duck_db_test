@@ -12,12 +12,22 @@ cast_dict = {"age": "%Y%m%d"}
 
 df = pd.DataFrame(data)
 
-# Connect to DuckDB and register the pandas DataFrame
 duck_connection = duckdb.connect()
 
 relation = duck_connection.from_df(df)
 
 
-# Aggregate tests
 relation =  relation.select("id,name,age").aggregate("sum(age) as age,name,id", "name,id")
 relation.show()
+
+'''
+┌────────┬─────────┬───────┐
+│  age   │  name   │  id   │
+│ int128 │ varchar │ int64 │
+├────────┼─────────┼───────┤
+│     17 │ Alice   │     1 │
+│      4 │ David   │     4 │
+│      6 │ Charlie │     3 │
+└────────┴─────────┴───────┘
+
+'''

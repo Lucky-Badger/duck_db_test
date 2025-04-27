@@ -12,13 +12,11 @@ cast_dict = {"age": "%Y%m%d"}
 
 df = pd.DataFrame(data)
 
-# Connect to DuckDB and register the pandas DataFrame
 duck_connection = duckdb.connect()
 
 relation = duck_connection.from_df(df)
 
 
-# Using CASE statement to categorize age
 result = relation.select("""
     id, 
     name, 
@@ -31,5 +29,17 @@ result = relation.select("""
     END AS age_category
 """)
 
-# Displaying the result
 result.show()
+
+'''
+┌───────┬─────────┬────────┬──────────────┐
+│  id   │  name   │  age   │ age_category │
+│ int64 │ varchar │ double │   varchar    │
+├───────┼─────────┼────────┼──────────────┤
+│     1 │ Alice   │    9.0 │ Young        │
+│     1 │ Trey    │   43.0 │ Middle-aged  │
+│     3 │ Charlie │   90.0 │ Older        │
+│     4 │ David   │   NULL │ Unknown      │
+└───────┴─────────┴────────┴──────────────┘
+
+'''

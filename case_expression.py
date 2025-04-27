@@ -28,3 +28,14 @@ case = \
 res = rel.select(f'c,{case} AS case_expression')
 
 print(res)
+'''
+┌───────┬─────────────────┐
+│   c   │ case_expression │
+│ int64 │     varchar     │
+├───────┼─────────────────┤
+│    42 │ world           │
+│    21 │ test            │
+│    13 │ hello           │
+│    14 │ hello           │
+└───────┴─────────────────┘
+'''

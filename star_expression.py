@@ -10,8 +10,8 @@ df = pd.DataFrame({
 star = duckdb.StarExpression(exclude = ['b'])
 duck_connection = duckdb.connect()
 rel = duck_connection.from_df(df)
-res = rel.select(star).fetchall()
-print(res)
+res = rel.select(star)
+res.show()
 
 # OR 
 # cols_to_exclude = ['b']
@@ -20,3 +20,16 @@ print(res)
 # rel = duck_connection.from_df(df)
 # res = rel.select(star).fetchall()
 # print(res)
+
+'''
+┌───────┬───────┐
+│   a   │   c   │
+│ int64 │ int64 │
+├───────┼───────┤
+│     1 │    42 │
+│     2 │    21 │
+│     3 │    13 │
+│     4 │    14 │
+└───────┴───────┘
+
+'''

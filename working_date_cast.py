@@ -12,18 +12,15 @@ cast_dict = {"age": "%Y%m%d"}
 
 df = pd.DataFrame(data)
 
-# Connect to DuckDB and register the pandas DataFrame
 duck_connection = duckdb.connect()
 
 relation = duck_connection.from_df(df)
 
 
-# Dynamically build the SELECT statement
 select_columns = []
 for column, date_format in cast_dict.items():
     select_columns.append(f"CAST(strptime({column}, '{date_format}') AS DATE) AS {column}")
 
-# Add other columns that  remain unchanged
 for column in df.columns:
     if column not in cast_dict:
         select_columns.append(column)
@@ -34,3 +31,16 @@ query = "SELECT " + ", ".join(select_columns) + " FROM relation"
 
 result = duck_connection.sql(query)
 result.show()
+
+'''
+┌────────────┬───────┬─────────┐
+│    age     │  id   │  name   │
+│    date    │ int64 │ varchar │
+├────────────┼───────┼─────────┤
+│ 2024-10-17 │     1 │ Alice   │
+│ 2024-10-03 │     2 │ Bob     │
+│ 2024-09-10 │     3 │ Charlie │
+│ 2024-09-14 │     4 │ David   │
+└────────────┴───────┴─────────┘
+
+'''

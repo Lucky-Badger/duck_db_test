@@ -15,7 +15,6 @@ df = pd.DataFrame({
     ]
 })
 
-# Create a DuckDB relation from the DataFrame
 duck_connection = duckdb.connect()
 
 rel = duck_connection.from_df(df)
@@ -26,3 +25,16 @@ res.show()
 
 # List of functions can be found here
 # https://duckdb.org/docs/stable/sql/functions/overview
+
+'''
+┌─────────┐
+│    c    │
+│ boolean │
+├─────────┤
+│ true    │
+│ true    │
+│ false   │
+│ true    │
+└─────────┘
+
+'''

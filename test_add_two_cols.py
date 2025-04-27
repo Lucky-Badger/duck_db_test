@@ -2,27 +2,21 @@ import pytest
 import duckdb
 import pandas as pd
 
-# Function to test adding two DECIMAL(16, 8) columns
 def add_decimal_columns(df):
-    # Create a DuckDB connection in-memory
     con = duckdb.connect()
 
-    # Convert the pandas DataFrame into a DuckDB relation
     relation = con.from_df(df)
     
-    # SQL query to add two DECIMAL(16, 8) columns
     result_relation = relation.select(
         "id, CAST(amount1 AS DECIMAL(16, 8)) + CAST(amount2 AS DECIMAL(16, 8)) AS total"
     )
     
-    # Convert the result relation to a pandas DataFrame and return
     result_df = result_relation.df()
     return result_df
 
 
 @pytest.fixture
 def sample_data():
-    # This fixture will provide the test data to the tests with DECIMAL(16, 8) values
     return pd.DataFrame({
         'id': ['jim', 'jones', 'Bob', 'Shirley', 'jewn'],
         'amount1': [12345.12345678, 98765.87654321, 45678.98765432, 123456.12345678, 99999.99999999],
@@ -31,10 +25,8 @@ def sample_data():
 
 
 def test_add_decimal_columns(sample_data):
-    # Call the function to test
     result = add_decimal_columns(sample_data)
     
-    # Define the expected output manually (with 8 decimals of precision)
     expected_result = pd.DataFrame({
         'id': ['jim', 'jones', 'Bob', 'Shirley', 'jewn'],
         'total': [
@@ -46,5 +38,4 @@ def test_add_decimal_columns(sample_data):
         ]
     })
     
-    # Assert the dataframes are equal (check values and types)
     pd.testing.assert_frame_equal(result, expected_result)
