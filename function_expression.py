@@ -20,7 +20,7 @@ duck_connection = duckdb.connect()
 
 rel = duck_connection.from_df(df)
 
-ends_with = FunctionExpression('ends_with', ColumnExpression('a'), ConstantExpression('est')).alias('c')
+ends_with = FunctionExpression('ends_with', ColumnExpression('a'), ConstantExpression('est')).alias('c') # Ends with documentation, https://duckdb.org/docs/stable/sql/functions/char#ends_withstring-search_string
 res = rel.select(ends_with)
 res.show()
 
