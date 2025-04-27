@@ -33,9 +33,26 @@ relation_result = (
     relation_1
     .join(relation_2, "r1.id = r2.id", "inner")
     .select(
-        *expand_cols_helper(relation_1, "r1"),
+        *expand_cols_helper(relation_1, "r1"), # Either use straight strings, or expressions, thus we can't use r1.*
         (col('r1.amount1') + col('r2.amount2')).cast('DECIMAL(38,8)').alias('calc_col')
     )
 )
 
 relation_result.show()
+
+# OR
+ 
+relation_result2 = (
+    relation_1
+    .join(relation_2, "r1.id = r2.id", "inner")
+    .select(
+        f"r1.*, \
+        {((col('r1.amount1') + col('r2.amount2')).cast('DECIMAL(38,8)'))} AS calc_col" # Alias not working as intended so just rename
+    )
+)
+
+relation_result2.show()
+
+'''
+
+'''

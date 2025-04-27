@@ -34,7 +34,7 @@ rel1 = duck_conn.table('users_1').set_alias("r1")
 rel2 = duck_conn.table('users_2').set_alias("r2")
 
 condition = 'r1.id=r2.id AND r1.name=r2.name'
-joined_rel = rel1.join(rel2, condition=condition, how='inner').select("r1.id, r2.country")
+joined_rel = rel1.join(rel2, condition=condition, how='inner').select("r1.*, r2.country")
 
 
 joined_rel.show()
