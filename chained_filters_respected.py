@@ -29,15 +29,15 @@ max_relation = relation.max('event_date')
 
 max_date = max_relation.fetchone()[0]
 
-date_filtered_relation = relation.filter((col('event_date') == const(max_date))).show()
-
+date_filtered_relation = relation.filter((col('event_date') == const(max_date)))
+date_filtered_relation.select('*'+', event_date :: DATE AS event_date').show()
 '''
-┌─────────┬─────────────────────┐
-│  term   │     event_date      │
-│ varchar │    timestamp_ns     │
-├─────────┼─────────────────────┤
-│ short   │ 2024-10-17 00:00:00 │
-│ short   │ 2024-10-17 00:00:00 │
-└─────────┴─────────────────────┘
+┌─────────┬─────────────────────┬────────────┐
+│  term   │     event_date      │ event_date │
+│ varchar │    timestamp_ns     │    date    │
+├─────────┼─────────────────────┼────────────┤
+│ short   │ 2024-10-17 00:00:00 │ 2024-10-17 │
+│ short   │ 2024-10-17 00:00:00 │ 2024-10-17 │
+└─────────┴─────────────────────┴────────────┘
 
 '''
