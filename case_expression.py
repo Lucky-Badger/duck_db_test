@@ -12,7 +12,6 @@ df = pd.DataFrame({
     'c': [42, 21, 13, 14]
 })
 
-# Create a DuckDB relation from the DataFrame
 duck_connection = duckdb.connect()
 
 rel = duck_connection.from_df(df)
@@ -23,9 +22,9 @@ world = const('world')
 case = \
     CaseExpression(condition = col('a') == const(1), value = world)\
         .when(condition = col('a') == const(2), value = const('test')) \
-        .otherwise(hello)
+        .otherwise(hello).alias('case_expression')
 
-res = rel.select(f'c,{case} AS case_expression')
+res = rel.select(f'c,{case} AS case_expression') # Alias not working as expected on case expression
 
 print(res)
 '''

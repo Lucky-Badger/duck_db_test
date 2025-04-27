@@ -14,6 +14,7 @@ res = rel.select(star)
 res.show()
 
 # OR 
+
 # cols_to_exclude = ['b']
 # star = duckdb.StarExpression(exclude = [*cols_to_exclude])
 # duck_connection = duckdb.connect()

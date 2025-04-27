@@ -1,20 +1,4 @@
 import duckdb
-import pandas as pd
-
-
-# data = {
-#     'id': [1, 1, 3, 4],
-#     'name': ['Alice', 'Trey', 'Charlie', 'David'],
-#     'age': [9,43,90,None]
-# }
-
-# cast_dict = {"age": "%Y%m%d"}
-
-# df = pd.DataFrame(data)
-
-# duck_connection = duckdb.connect()
-
-# relation = duck_connection.from_df(df)
 
 
 rel = duckdb.sql("""

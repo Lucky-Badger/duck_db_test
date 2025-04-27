@@ -23,7 +23,8 @@ for column, date_format in cast_dict.items():
 
 for column in df.columns:
     if column not in cast_dict:
-        select_columns.append(column)
+        select_columns.append(column)\
+
 print(select_columns)
 
 query = "SELECT " + ", ".join(select_columns) + " FROM relation"

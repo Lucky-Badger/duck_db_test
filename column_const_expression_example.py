@@ -13,8 +13,6 @@ duck_connection = duckdb.connect()
 
 rel = duck_connection.from_df(df)
 
-
-
 col_list = [
     (duckdb.ColumnExpression('a') * const(10)).alias('a'),
     duckdb.ColumnExpression('b').isnull().alias('b'), 
