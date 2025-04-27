@@ -1,9 +1,11 @@
 import duckdb
 import pandas as pd
+from typing import cast as t_cast
 from duckdb import (
     ColumnExpression as col,
     ConstantExpression as const
 )
+from duckdb.typing import DuckDBPyType 
 
 df = pd.DataFrame({
     'a': ['a','b','c','d'],
@@ -23,7 +25,7 @@ for i, date_col in enumerate(date_columns, 1):
         'strptime',
         col(date_col),
         const('%Y%m%d')
-    ).cast('DATE').alias(f'{date_col}_date')
+    ).cast(t_cast(DuckDBPyType,'DATE')).alias(f'{date_col}_date')  # To avoid mypy from complaining either ignore line or cast like this
     
     formatted_columns.append(formatted_column)
 

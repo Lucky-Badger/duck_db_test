@@ -1,10 +1,13 @@
 import duckdb
 import pandas as pd
+from typing import cast as t_cast
+from duckdb.typing import DuckDBPyType
 from  duckdb import (
     ConstantExpression as const,
     ColumnExpression as col,
-    StarExpression as star
+    StarExpression as star,
 )
+
 
 def expand_cols_helper(relation, alias):
     return [f"{alias}.{col}" for col in relation.columns]
@@ -29,25 +32,27 @@ relation_1 = con.from_df(df1).set_alias("r1")
 relation_2 = con.from_df(df2).set_alias("r2")
 
 
+# Can ignore type issue like this 
+decimal_precision_38_8 = t_cast(DuckDBPyType,'DECIMAL(38,8)') # ANOTHER OPTION FOR MYPY
+
 relation_result = (
     relation_1
     .join(relation_2, "r1.id = r2.id", "inner")
     .select(
         *expand_cols_helper(relation_1, "r1"), # Either use straight strings, or expressions, thus we can't use r1.*
-        (col('r1.amount1') + col('r2.amount2')).cast('DECIMAL(38,8)').alias('calc_col')
+        (col('r1.amount1') + col('r2.amount2')).cast(decimal_precision_38_8).alias('calc_col')
     )
 )
 
 relation_result.show()
 
 # OR
- 
 relation_result2 = (
     relation_1
     .join(relation_2, "r1.id = r2.id", "inner")
     .select(
         f"r1.*, \
-        {((col('r1.amount1') + col('r2.amount2')).cast('DECIMAL(38,8)'))} AS calc_col" # Alias not working as intended so just rename
+        {((col('r1.amount1') + col('r2.amount2')).cast(t_cast(DuckDBPyType,'DECIMAL(38,8)')))} AS calc_col" # Alias not working as intended so just rename , have to cast to make my py happy 
     )
 )
 

@@ -15,9 +15,8 @@ sql_query = """
     FROM rel
 """
 
-res = duck_connection.sql(sql_query).show()
+duck_connection.sql(sql_query).show()
 
-print(res)
 '''
 ┌─────────┬────────────┬──────────────────────────┐
 │  name   │ time_taken │ contains_multiple_values │
