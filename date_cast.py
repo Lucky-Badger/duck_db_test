@@ -27,7 +27,7 @@ for i, date_col in enumerate(date_columns, 1):
         'strptime',
         col(date_col),
         const('%Y%m%d')
-    ).cast('DATE').alias(f'date{i}')  # Aliasing dynamically as date1, date2, etc.
+    ).cast('DATE').alias(f'{date_col}_date')  # Aliasing dynamically as date1, date2, etc.
     
     # Add the formatted column to the list
     formatted_columns.append(formatted_column)
@@ -38,5 +38,6 @@ unformat_cols = list(set(rel.columns) - set(date_columns))
 columns_to_select = [*unformat_cols] + formatted_columns  # Add 'a' along with formatted columns
 res = rel.select(*columns_to_select)
 
-# Show the result
+# Show the results
 res.show()
+
